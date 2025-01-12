@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const cognito = require('../config/awsConfig');
 const { createToken } = require('../utils/jwtUtils');
+require('dotenv').config();
 
 const signUpUser = async (username, password, email) => {
   const params = {
