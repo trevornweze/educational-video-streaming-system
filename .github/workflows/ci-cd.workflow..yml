@@ -125,6 +125,7 @@ jobs:
   authentication-service-cd:
     needs: authentication-service-ci
     runs-on: ubuntu-latest
+    name: 🚀 Authentication Service - Deploy to EC2
     steps:
       - name: Pull Authentication Service Image from Docker Hub
         run: sudo docker pull ${{ secrets.DOCKER_USERNAME }}/authentication-service:latest
@@ -147,6 +148,7 @@ jobs:
   video-streaming-service-cd:
     needs: video-streaming-service-ci
     runs-on: ubuntu-latest
+    name: 🎬 Video Streaming Service - Deploy to EC2
     steps:
       - name: Pull Video Streaming Service Image from Docker Hub
         run: sudo docker pull ${{ secrets.DOCKER_USERNAME }}/video-streaming-service:latest
@@ -169,6 +171,7 @@ jobs:
   api-gateway-cd:
     needs: api-gateway-ci
     runs-on: ubuntu-latest
+    name: 🛡️ API Gateway - Deploy to EC2
     steps:
       - name: Pull API Gateway Image from Docker Hub
         run: sudo docker pull ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest
@@ -191,6 +194,7 @@ jobs:
   watchlist-service-cd:
     needs: watchlist-service-ci
     runs-on: ubuntu-latest
+    name: 📺 Watchlist Service - Deploy to EC2
     steps:
       - name: Pull Watchlist Service Image from Docker Hub
         run: sudo docker pull ${{ secrets.DOCKER_USERNAME }}/watchlist-service:latest
