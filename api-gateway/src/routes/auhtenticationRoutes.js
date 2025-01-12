@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
-// Login route
 router.post('/login', async (req, res) => {
   try {
     const response = await axios.post(`${process.env.AUTH_SERVICE_URL}/login`, req.body);
