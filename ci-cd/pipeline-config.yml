@@ -1,0 +1,14 @@
+version: "1.0"
+pipeline:
+  name: "Educational Video Streaming CI/CD"
+  stages:
+    - checkout
+    - build
+    - test
+    - deploy
+  notifications:
+    email:
+      recipients:
+        - team@example.com
+    slack:
+      webhook: "https://hooks.slack.com/services/your/slack/webhook/url"

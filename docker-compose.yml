@@ -1,0 +1,73 @@
+version: "3.9"
+services:
+  authentication-service:
+    build:
+      context: ./authentication-service
+    container_name: authentication-service
+    ports:
+      - "4001:4001"
+    environment:
+      - PORT=4001
+      - USER_POOL_ID=your-user-pool-id
+      - CLIENT_ID=your-client-id
+    depends_on:
+      - database
+
+  video-streaming-service:
+    build:
+      context: ./video-streaming-service
+    container_name: video-streaming-service
+    ports:
+      - "4002:4002"
+    environment:
+      - PORT=4002
+      - AWS_REGION=us-east-1
+      - S3_BUCKET_NAME=your-s3-bucket-name
+      - ELASTIC_TRANSCODER_PIPELINE_ID=your-pipeline-id
+      - CLOUD_FRONT_URL=your-cloudfront-url
+    depends_on:
+      - database
+
+  watchlist-service:
+    build:
+      context: ./watchlist-service
+    container_name: watchlist-service
+    ports:
+      - "4003:4003"
+    environment:
+      - PORT=4003
+      - MONGO_URI=mongodb://database:27017/watchlist
+    depends_on:
+      - database
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - AUTH_SERVICE_URL=http://authentication-service:4001
+      - VIDEO_SERVICE_URL=http://video-streaming-service:4002
+      - WATCHLIST_SERVICE_URL=http://watchlist-service:4003
+    depends_on:
+      - authentication-service
+      - video-streaming-service
+      - watchlist-service
+
+  database:
+    build:
+      context: ./database
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      - ./database/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
+
+volumes:
+  mongo-data:
